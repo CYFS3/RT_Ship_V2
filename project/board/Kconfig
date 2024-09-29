@@ -70,6 +70,15 @@ menu "On-chip Peripheral Drivers"
             
             
         endif
+    menuconfig BSP_USING_ADC
+        bool "Enable ADC"
+        default y
+        select RT_USING_ADC
+        if BSP_USING_ADC
+            config BSP_USING_ADC1
+                bool "Enacble ADC1"
+                default y
+        endif
 
     source "$(BSP_DIR)/libraries/HAL_Drivers/drivers/Kconfig"
 

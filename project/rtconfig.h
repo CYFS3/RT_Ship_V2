@@ -13,7 +13,7 @@
 #define RT_HOOK_USING_FUNC_PTR
 #define RT_USING_IDLE_HOOK
 #define RT_IDLE_HOOK_LIST_SIZE 4
-#define IDLE_THREAD_STACK_SIZE 256
+#define IDLE_THREAD_STACK_SIZE 512
 
 /* kservice optimization */
 
@@ -90,6 +90,7 @@
 #define RT_USING_SERIAL_V1
 #define RT_SERIAL_USING_DMA
 #define RT_SERIAL_RB_BUFSZ 64
+#define RT_USING_ADC
 #define RT_USING_PIN
 /* end of Device Drivers */
 
@@ -329,6 +330,8 @@
 #define BSP_USING_UART3
 #define BSP_USING_UART4
 #define BSP_USING_UART5
+#define BSP_USING_ADC
+#define BSP_USING_ADC1
 /* end of On-chip Peripheral Drivers */
 
 /* Board extended module Drivers */
