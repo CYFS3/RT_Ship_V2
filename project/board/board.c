@@ -43,3 +43,92 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
+
+
+#ifdef BSP_USING_DS18B20
+#include <stdlib.h>
+#include "drivers/sensor.h"
+#include "sensor_dallas_ds18b20.h"
+
+
+
+static void read_temp_entry(void *parameter)
+{
+    rt_device_t dev = RT_NULL;
+    struct rt_sensor_data sensor_data;
+    rt_size_t res;
+
+    dev = rt_device_find(parameter);
+    if (dev == RT_NULL)
+    {
+        rt_kprintf("Can't find device:%s\n", parameter);
+        return;
+    }
+
+    if (rt_device_open(dev, RT_DEVICE_FLAG_RDWR) != RT_EOK)
+    {
+        rt_kprintf("open device failed!\n");
+        return;
+    }
+    rt_device_control(dev, RT_SENSOR_CTRL_SET_ODR, (void *)100);
+
+    while (1)
+    {
+        res = rt_device_read(dev, 0, &sensor_data, 1);
+        if (res != 1)
+        {
+            rt_kprintf("read data failed!size is %d\n", res);
+            rt_device_close(dev);
+            return;
+        }
+        else
+        {
+            if (sensor_data.data.temp >= 0)
+            {
+                rt_kprintf("temp:%3d.%dC, timestamp:%5d\n",
+                           sensor_data.data.temp / 10,
+                           sensor_data.data.temp % 10,
+                           sensor_data.timestamp);
+            }
+            else
+            {
+                rt_kprintf("temp:-%2d.%dC, timestamp:%5d\n",
+                           abs(sensor_data.data.temp / 10),
+                           abs(sensor_data.data.temp % 10),
+                           sensor_data.timestamp);
+            }
+        }
+        rt_thread_mdelay(100);
+    }
+}
+
+static int ds18b20_read_temp_sample(void)
+{
+    rt_thread_t ds18b20_thread;
+
+    ds18b20_thread = rt_thread_create("18b20tem",
+                                      read_temp_entry,
+                                      "temp_ds18b20",
+                                      1024,
+                                      RT_THREAD_PRIORITY_MAX / 2,
+                                      20);
+    if (ds18b20_thread != RT_NULL)
+    {
+        rt_thread_startup(ds18b20_thread);
+    }
+
+    return RT_EOK;
+}
+INIT_APP_EXPORT(ds18b20_read_temp_sample);
+
+static int rt_hw_ds18b20_port(void)
+{
+    struct rt_sensor_config cfg;
+    
+    cfg.intf.user_data = (void *)BSP_DS18B20_PIN;
+    rt_hw_ds18b20_init("ds18b20", &cfg);
+    
+    return RT_EOK;
+}
+INIT_COMPONENT_EXPORT(rt_hw_ds18b20_port);
+#endif

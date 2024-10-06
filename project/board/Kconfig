@@ -8,6 +8,16 @@ config SOC_STM32F103RE
     default y
 
 menu "Onboard Peripheral Drivers"
+    menuconfig BSP_USING_DS18B20
+        bool "Enable DS18B20"
+        default y
+        select PKG_USING_DS18B20
+        select RT_USING_PIN
+        if BSP_USING_DS18B20 && PKG_USING_DS18B20
+            config BSP_DS18B20_PIN 
+                int "DS18B20 Pin"
+                default 36
+        endif
 
 endmenu
 
