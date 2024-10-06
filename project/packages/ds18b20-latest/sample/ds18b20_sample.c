@@ -4,53 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       Notes
- * 2018-11-06     SummerGift   first version
+ * Date           Author         Notes
+ * 2019-07-24     WillianChan    the first version
+ * 2020-07-28     WillianChan    add the inclusion of the board.h
  */
- 
-#include "board.h"
-void SystemClock_Config(void)
-{
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-}
-
-
-#ifdef BSP_USING_DS18B20
 #include <stdlib.h>
+#include <rtthread.h>
+#include "board.h"
 #include "drivers/sensor.h"
 #include "sensor_dallas_ds18b20.h"
 
-
+/* Modify this pin according to the actual wiring situation */
+#define DS18B20_DATA_PIN    GET_PIN(G, 9)
 
 static void read_temp_entry(void *parameter)
 {
@@ -125,10 +91,9 @@ static int rt_hw_ds18b20_port(void)
 {
     struct rt_sensor_config cfg;
     
-    cfg.intf.user_data = (void *)BSP_DS18B20_PIN;
+    cfg.intf.user_data = (void *)DS18B20_DATA_PIN;
     rt_hw_ds18b20_init("ds18b20", &cfg);
     
     return RT_EOK;
 }
 INIT_COMPONENT_EXPORT(rt_hw_ds18b20_port);
-#endif

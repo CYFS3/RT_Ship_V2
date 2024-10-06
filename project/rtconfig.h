@@ -237,6 +237,8 @@
 
 /* sensors drivers */
 
+#define PKG_USING_DS18B20
+#define PKG_USING_DS18B20_LATEST_VERSION
 /* end of sensors drivers */
 
 /* touch drivers */
@@ -320,6 +322,10 @@
 #define SOC_STM32F103RE
 
 /* Onboard Peripheral Drivers */
+
+#define BSP_USING_DS18B20
+#define BSP_DS18B20_PIN 36
+/* end of Onboard Peripheral Drivers */
 
 /* On-chip Peripheral Drivers */
 
