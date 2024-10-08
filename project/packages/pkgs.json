@@ -3,5 +3,10 @@
   "name": "DS18B20",
   "path": "/packages/peripherals/sensors/ds18b20",
   "ver": "latest"
+ },
+ {
+  "name": "DHT11",
+  "path": "/packages/peripherals/sensors/dht11",
+  "ver": "latest"
  }
 ]
