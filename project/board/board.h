@@ -42,7 +42,7 @@ extern int __bss_end;
 #define HEAP_END        STM32_SRAM_END
 
 void SystemClock_Config(void);
-
+void board_init(void);
 #ifdef __cplusplus
 }
 #endif

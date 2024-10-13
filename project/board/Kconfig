@@ -18,6 +18,16 @@ menu "Onboard Peripheral Drivers"
                 int "DS18B20 Pin"
                 default 36
         endif
+    menuconfig BSP_USING_DHT11
+        bool "Enable DHT11"
+        default y
+        select PKG_USING_DHT11
+        select RT_USING_PIN
+        if BSP_USING_DHT11 && PKG_USING_DHT11
+            config BSP_DHT11_PIN 
+                int "DHT11 Pin"
+                default 4
+        endif
 
 endmenu
 
@@ -77,8 +87,6 @@ menu "On-chip Peripheral Drivers"
                 depends on BSP_USING_UART5 && RT_SERIAL_USING_DMA
                 default n
             
-            
-            
         endif
     menuconfig BSP_USING_ADC
         bool "Enable ADC"
@@ -88,6 +96,21 @@ menu "On-chip Peripheral Drivers"
             config BSP_USING_ADC1
                 bool "Enacble ADC1"
                 default y
+        endif
+    menuconfig BSP_USING_PWM
+        bool "Enable PWM"
+        default n
+        select RT_USING_PWM
+        if BSP_USING_PWM
+        menuconfig BSP_USING_PWM3
+            bool "Enable timer3 output PWM"
+            default n
+            if BSP_USING_PWM3
+                config BSP_USING_PWM3_CH3
+                    bool "Enable PWM3 channel3"
+                    default n
+            endif
+        
         endif
 
     source "$(BSP_DIR)/libraries/HAL_Drivers/drivers/Kconfig"

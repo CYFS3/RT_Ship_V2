@@ -196,6 +196,7 @@ rt_weak void rt_hw_board_init(void)
 
 #ifdef RT_USING_PIN
     rt_hw_pin_init();
+    board_init();
 #endif
 
 #ifdef RT_USING_SERIAL

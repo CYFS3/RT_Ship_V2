@@ -91,6 +91,9 @@
 #define RT_SERIAL_USING_DMA
 #define RT_SERIAL_RB_BUFSZ 64
 #define RT_USING_ADC
+#define RT_USING_PWM
+#define RT_USING_SENSOR
+#define RT_USING_SENSOR_CMD
 #define RT_USING_PIN
 /* end of Device Drivers */
 
@@ -239,6 +242,8 @@
 
 #define PKG_USING_DS18B20
 #define PKG_USING_DS18B20_LATEST_VERSION
+#define PKG_USING_DHT11
+#define PKG_USING_DHT11_LATEST_VERSION
 /* end of sensors drivers */
 
 /* touch drivers */
@@ -325,6 +330,8 @@
 
 #define BSP_USING_DS18B20
 #define BSP_DS18B20_PIN 36
+#define BSP_USING_DHT11
+#define BSP_DHT11_PIN 5
 /* end of Onboard Peripheral Drivers */
 
 /* On-chip Peripheral Drivers */
@@ -338,6 +345,9 @@
 #define BSP_USING_UART5
 #define BSP_USING_ADC
 #define BSP_USING_ADC1
+#define BSP_USING_PWM
+#define BSP_USING_PWM3
+#define BSP_USING_PWM3_CH3
 /* end of On-chip Peripheral Drivers */
 
 /* Board extended module Drivers */
