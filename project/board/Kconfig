@@ -28,6 +28,23 @@ menu "Onboard Peripheral Drivers"
                 int "DHT11 Pin"
                 default 4
         endif
+    menuconfig BSP_USING_LC29H
+        bool "Enable LC29H"
+        default y
+        select PKG_USING_LC29H
+        select RT_USING_UART2
+        select BSP_UART2_RX_USING_DMA
+        select PKG_USING_GPS_RMC
+        if BSP_USING_LC29H
+            config BSP_LC29H_UART
+                string "LC29H UART"
+                default "uart2"
+            config BSP_LC29H_RB_BUSIZ
+                int "LC29H Rx Buffer Size"
+                default 2048
+        endif
+        
+        
 
 endmenu
 

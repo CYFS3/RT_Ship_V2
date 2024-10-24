@@ -87,9 +87,8 @@
 #define RT_USING_DEVICE_IPC
 #define RT_UNAMED_PIPE_NUMBER 64
 #define RT_USING_SERIAL
-#define RT_USING_SERIAL_V1
+#define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
-#define RT_SERIAL_RB_BUFSZ 64
 #define RT_USING_ADC
 #define RT_USING_PWM
 #define RT_USING_SENSOR
@@ -200,6 +199,8 @@
 
 /* tools packages */
 
+#define PKG_USING_GPS_RMC
+#define PKG_USING_GPS_RMC_LATEST_VERSION
 /* end of tools packages */
 
 /* system packages */
@@ -332,6 +333,20 @@
 #define BSP_DS18B20_PIN 36
 #define BSP_USING_DHT11
 #define BSP_DHT11_PIN 5
+#define BSP_USING_LC29H
+#define BSP_LC29H_UART "uart4"
+#define BSP_LC29H_RB_BUSIZ 1024*2
+#define BSP_UART1_RX_BUFSIZE 64
+#define BSP_UART1_TX_BUFSIZE 64
+#define BSP_UART2_RX_BUFSIZE 64
+#define BSP_UART2_TX_BUFSIZE 64
+#define BSP_UART3_RX_BUFSIZE 64
+#define BSP_UART3_TX_BUFSIZE 64
+#define BSP_UART4_RX_BUFSIZE 4096
+#define BSP_UART4_TX_BUFSIZE 64
+#define BSP_UART5_RX_BUFSIZE 64
+#define BSP_UART5_TX_BUFSIZE 64
+
 /* end of Onboard Peripheral Drivers */
 
 /* On-chip Peripheral Drivers */
@@ -340,8 +355,10 @@
 #define BSP_USING_UART
 #define BSP_USING_UART1
 #define BSP_USING_UART2
+#define BSP_UART2_RX_USING_DMA
 #define BSP_USING_UART3
 #define BSP_USING_UART4
+#define BSP_UART4_RX_USING_DMA
 #define BSP_USING_UART5
 #define BSP_USING_ADC
 #define BSP_USING_ADC1

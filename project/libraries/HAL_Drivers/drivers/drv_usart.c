@@ -35,7 +35,7 @@ static void stm32_dma_config(struct rt_serial_device *serial, rt_ubase_t flag);
 #endif
 
 /* Number of while blocking timeouts for the stm32_putc */
-#define TX_BLOCK_TIMEOUT    2000
+#define TX_BLOCK_TIMEOUT    4000
 
 enum
 {
@@ -357,7 +357,7 @@ static int stm32_putc(struct rt_serial_device *serial, char c)
 #else
     uart->handle.Instance->DR = c;
 #endif
-    while (__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_TC) == RESET && block_timeout--);
+    while (__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_TC) == RESET && --block_timeout);
     return (block_timeout != 0) ? 1 : -1;
 }
 
@@ -1202,7 +1202,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     struct stm32_uart *uart;
     RT_ASSERT(huart != NULL);
     uart = (struct stm32_uart *)huart;
-    dma_recv_isr(&uart->serial, UART_RX_DMA_IT_TC_FLAG);
+    //dma_recv_isr(&uart->serial, UART_RX_DMA_IT_TC_FLAG);
 }
 
 /**
@@ -1217,7 +1217,7 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
     struct stm32_uart *uart;
     RT_ASSERT(huart != NULL);
     uart = (struct stm32_uart *)huart;
-    dma_recv_isr(&uart->serial, UART_RX_DMA_IT_HT_FLAG);
+    //dma_recv_isr(&uart->serial, UART_RX_DMA_IT_HT_FLAG);
 }
 
 static void _dma_tx_complete(struct rt_serial_device *serial)

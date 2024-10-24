@@ -3,11 +3,13 @@
 #include <board.h>
 #include <drv_gpio.h>
 #define A_IN_1 GET_PIN(C,5)
+#define A_IN_2 GET_PIN(B,0)
 int contrl_font(void)
 {
 	rt_pin_mode(A_IN_1,PIN_MODE_OUTPUT);	
-
+    rt_pin_mode(A_IN_2,PIN_MODE_OUTPUT);	
 	rt_pin_write(A_IN_1,0);
+    rt_pin_write(A_IN_2,1);
 
     return RT_EOK;
 }
@@ -50,7 +52,6 @@ int pwm_led_sample(void)
     rt_pwm_set(pwm_dev, PWM_DEV_CHANNEL, period, pulse);
     /* 使能设备 */
     rt_pwm_enable(pwm_dev, PWM_DEV_CHANNEL);
-
+    
+    
 }
-/* 导出到 msh 命令列表中 */
-INIT_APP_EXPORT(pwm_led_sample);

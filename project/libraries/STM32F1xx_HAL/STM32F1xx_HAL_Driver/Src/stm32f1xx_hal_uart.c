@@ -698,7 +698,6 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
 
   /* Process Unlock */
   __HAL_UNLOCK(huart);
-
   return HAL_OK;
 }
 

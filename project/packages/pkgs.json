@@ -1,5 +1,10 @@
 [
  {
+  "name": "GPS_RMC",
+  "path": "/packages/tools/gps_rmc",
+  "ver": "latest"
+ },
+ {
   "name": "DS18B20",
   "path": "/packages/peripherals/sensors/ds18b20",
   "ver": "latest"
