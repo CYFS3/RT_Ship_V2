@@ -1,0 +1,116 @@
+T16D8 000:244.232   SEGGER J-Link V7.92k Log File
+T16D8 000:244.498   DLL Compiled: Oct 18 2023 14:58:31
+T16D8 000:244.528   Logging started @ 2024-09-26 13:22
+T16D8 000:244.533   Process: D:\keil\keil5_MDK\UV4\UV4.exe
+T16D8 000:244.555 - 244.538ms
+T16D8 000:244.572 JLINK_SetWarnOutHandler(...)
+T16D8 000:244.577 - 0.007ms
+T16D8 000:244.582 JLINK_OpenEx(...)
+T16D8 000:246.297   Firmware: J-Link ARM V8 compiled Jan 31 2018 18:34:52
+T16D8 000:246.912   Firmware: J-Link ARM V8 compiled Jan 31 2018 18:34:52
+T16D8 000:251.350   Hardware: V8.00
+T16D8 000:251.368   S/N: 20080643
+T16D8 000:251.373   OEM: SEGGER
+T16D8 000:251.379   Feature(s): RDI,FlashDL,FlashBP,JFlash,GDBFull
+T16D8 000:251.541   Bootloader: (Could not read)
+T16D8 000:252.790   TELNET listener socket opened on port 19021
+T16D8 000:252.863   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T16D8 000:252.955   WEBSRV Webserver running on local port 19080
+T16D8 000:253.046   Looking for J-Link GUI Server exe at: D:\keil\keil5_MDK\ARM\Segger\JLinkGUIServer.exe
+T16D8 000:253.063   Looking for J-Link GUI Server exe at: D:\\JLink\JLinkGUIServer.exe
+T16D8 000:253.071   Forking J-Link GUI Server: D:\\JLink\JLinkGUIServer.exe
+T16D8 000:256.895   J-Link GUI Server info: "J-Link GUI server V7.94 "
+T16D8 000:257.066 - 12.471ms returns "O.K."
+T16D8 000:257.081 JLINK_GetEmuCaps()
+T16D8 000:257.086 - 0.004ms returns 0xB9FF7BBF
+T16D8 000:257.095 JLINK_TIF_GetAvailable(...)
+T16D8 000:257.562 - 0.466ms
+T16D8 000:257.572 JLINK_SetErrorOutHandler(...)
+T16D8 000:257.576 - 0.004ms
+T16D8 000:257.602 JLINK_ExecCommand("ProjectFile = "E:\MCU\RT_Ship_v2\project\JLinkSettings.ini"", ...). 
+T16D8 000:274.086 - 16.484ms returns 0x00
+T16D8 000:274.111 JLINK_ExecCommand("Device = STM32F103RE", ...). 
+T16D8 000:274.653   Device "STM32F103RE" selected.
+T16D8 000:274.938 - 0.821ms returns 0x00
+T16D8 000:274.948 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T16D8 000:274.954 - 0.001ms returns 0x01
+T16D8 000:274.959 JLINK_GetHardwareVersion()
+T16D8 000:274.963 - 0.003ms returns 80000
+T16D8 000:274.976 JLINK_GetDLLVersion()
+T16D8 000:274.980 - 0.004ms returns 79211
+T16D8 000:274.986 JLINK_GetOEMString(...)
+T16D8 000:274.992 JLINK_GetFirmwareString(...)
+T16D8 000:274.996 - 0.003ms
+T16D8 000:275.002 JLINK_GetDLLVersion()
+T16D8 000:275.006 - 0.003ms returns 79211
+T16D8 000:275.010 JLINK_GetCompileDateTime()
+T16D8 000:275.013 - 0.003ms
+T16D8 000:275.019 JLINK_GetFirmwareString(...)
+T16D8 000:275.022 - 0.003ms
+T16D8 000:275.027 JLINK_GetHardwareVersion()
+T16D8 000:275.031 - 0.003ms returns 80000
+T16D8 000:275.036 JLINK_GetSN()
+T16D8 000:275.039 - 0.003ms returns 20080643
+T16D8 000:275.044 JLINK_GetOEMString(...)
+T16D8 000:275.051 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T16D8 000:276.640 - 1.589ms returns 0x00
+T16D8 000:276.649 JLINK_HasError()
+T16D8 000:276.667 JLINK_SetSpeed(50000)
+T16D8 000:277.203 - 0.536ms
+T16D8 000:277.481 JLINK_GetId()
+T16D8 000:277.956   InitTarget() start
+T16D8 000:277.964    J-Link Script File: Executing InitTarget()
+T16D8 000:278.438   SWD selected. Executing JTAG -> SWD switching sequence.
+T16D8 000:286.312   DAP initialized successfully.
+T16D8 000:311.893   InitTarget() end - Took 33.9ms
+T16D8 000:313.887   Found SW-DP with ID 0x1BA01477
+T16D8 000:322.120   Old FW that does not support reading DPIDR via DAP jobs
+T16D8 000:330.817   DPv0 detected
+T16D8 000:330.845   CoreSight SoC-400 or earlier
+T16D8 000:330.854   Scanning AP map to find all available APs
+T16D8 000:336.692   AP[1]: Stopped AP scan as end of AP map has been reached
+T16D8 000:336.724   AP[0]: AHB-AP (IDR: 0x14770011)
+T16D8 000:336.732   Iterating through AP map to find AHB-AP to use
+T16D8 000:346.246   AP[0]: Core found
+T16D8 000:346.269   AP[0]: AHB-AP ROM base: 0xE00FF000
+T16D8 000:351.590   CPUID register: 0x411FC231. Implementer code: 0x41 (ARM)
+T16D8 000:351.627   Found Cortex-M3 r1p1, Little endian.
+T16D8 000:354.664   -- Max. mem block: 0x000020B0
+T16D8 000:355.745   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T16D8 000:356.372   CPU_ReadMem(4 bytes @ 0xE0002000)
+T16D8 000:357.151   FPUnit: 6 code (BP) slots and 2 literal slots
+T16D8 000:357.162   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T16D8 000:357.739   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T16D8 000:358.481   CPU_ReadMem(4 bytes @ 0xE0001000)
+T16D8 000:359.110   CPU_WriteMem(4 bytes @ 0xE0001000)
+T16D8 000:359.763   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T16D8 000:360.404   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T16D8 000:361.088   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T16D8 000:361.698   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T16D8 000:362.284   CoreSight components:
+T16D8 000:362.294   ROMTbl[0] @ E00FF000
+T16D8 000:362.303   CPU_ReadMem(64 bytes @ 0xE00FF000)
+T16D8 000:363.334   CPU_ReadMem(32 bytes @ 0xE000EFE0)
+T16D8 000:364.314   [0][0]: E000E000 CID B105E00D PID 001BB000 SCS
+T16D8 000:364.328   CPU_ReadMem(32 bytes @ 0xE0001FE0)
+T16D8 000:365.308   [0][1]: E0001000 CID B105E00D PID 001BB002 DWT
+T16D8 000:365.316   CPU_ReadMem(32 bytes @ 0xE0002FE0)
+T16D8 000:366.238   [0][2]: E0002000 CID B105E00D PID 000BB003 FPB
+T16D8 000:366.255   CPU_ReadMem(32 bytes @ 0xE0000FE0)
+T16D8 000:367.115   [0][3]: E0000000 CID B105E00D PID 001BB001 ITM
+T16D8 000:367.124   CPU_ReadMem(32 bytes @ 0xE0040FE0)
+T16D8 000:367.851   [0][4]: E0040000 CID B105900D PID 001BB923 TPIU-Lite
+T16D8 000:367.868   CPU_ReadMem(32 bytes @ 0xE0041FE0)
+T16D8 000:368.763   [0][5]: E0041000 CID B105900D PID 101BB924 ETM-M3
+T16D8 000:369.819 - 92.338ms returns 0x1BA01477
+T16D8 000:375.321 JLINK_GetFirmwareString(...)
+T16D8 000:375.343 - 0.021ms
+T16D8 001:461.804 JLINK_Close()
+T16D8 001:465.404   OnDisconnectTarget() start
+T16D8 001:465.424    J-Link Script File: Executing OnDisconnectTarget()
+T16D8 001:465.445   CPU_WriteMem(4 bytes @ 0xE0042004)
+T16D8 001:466.134   OnDisconnectTarget() end - Took 707us
+T16D8 001:466.146   CPU_ReadMem(4 bytes @ 0xE0001000)
+T16D8 001:484.323 - 22.518ms
+T16D8 001:484.339   
+T16D8 001:484.343   Closed
