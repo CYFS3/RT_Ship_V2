@@ -69,6 +69,8 @@ menu "On-chip Peripheral Drivers"
                 depends on BSP_USING_UART1 && RT_SERIAL_USING_DMA
                 default n
             
+            
+
             config BSP_USING_UART2
                 bool "Enable UART2"
                 default y
@@ -123,9 +125,12 @@ menu "On-chip Peripheral Drivers"
             bool "Enable timer3 output PWM"
             default n
             if BSP_USING_PWM3
-                config BSP_USING_PWM3_CH3
-                    bool "Enable PWM3 channel3"
-                    default n
+                config BSP_USING_PWM3_CH1
+                    bool "Enable PWM3 channel1"
+                    default y
+                config BSP_USING_PWM3_CH2
+                    bool "Enable PWM3 channel2"
+                    default y
             endif
         
         endif

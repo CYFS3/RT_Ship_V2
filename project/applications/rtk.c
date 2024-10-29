@@ -47,7 +47,7 @@ int lc29h_init(void)
 	config.baud_rate = BAUD_RATE_115200;        
 	config.data_bits = DATA_BITS_8;           
 	config.stop_bits = STOP_BITS_1;          
-	config.rx_bufsz      = 1024*2;                   
+	config.bufsz      = 1024*2;                   
 	config.parity    = PARITY_NONE;          
 
 	rt_device_control(lc29h_dev, RT_DEVICE_CTRL_CONFIG, &config);

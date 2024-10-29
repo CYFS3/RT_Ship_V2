@@ -127,7 +127,7 @@ void _Error_Handler(char *s, int num)
     /* USER CODE BEGIN Error_Handler */
     /* User can add his own implementation to report the HAL error return state */
     LOG_E("Error_Handler at file:%s num:%d", s, num);
-    while (1)
+                                                                                                                                                                                      while (1)
     {
     }
     /* USER CODE END Error_Handler */

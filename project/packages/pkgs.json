@@ -1,5 +1,10 @@
 [
  {
+  "name": "CJSON",
+  "path": "/packages/language/JSON/cJSON",
+  "ver": "v1.7.17"
+ },
+ {
   "name": "GPS_RMC",
   "path": "/packages/tools/gps_rmc",
   "ver": "latest"

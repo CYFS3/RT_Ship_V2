@@ -177,14 +177,17 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 
   /* USER CODE END TIM3_MspPostInit 0 */
 
-    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
     /**TIM3 GPIO Configuration
-    PB0     ------> TIM3_CH3
+    PC6     ------> TIM3_CH1
+    PC7     ------> TIM3_CH2
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    __HAL_AFIO_REMAP_TIM3_ENABLE();
 
   /* USER CODE BEGIN TIM3_MspPostInit 1 */
 

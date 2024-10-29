@@ -28,7 +28,7 @@ INIT_APP_EXPORT(contrl_font);
 #include <rtdevice.h>
 
 #define PWM_DEV_NAME        "pwm3"  /* PWM设备名称 */
-#define PWM_DEV_CHANNEL     3       /* PWM通道 */
+#define PWM_DEV_CHANNEL     1       /* PWM通道 */
 
 struct rt_device_pwm *pwm_dev;      /* PWM设备句柄 */
 
@@ -55,3 +55,4 @@ int pwm_led_sample(void)
     
     
 }
+INIT_APP_EXPORT(pwm_led_sample);

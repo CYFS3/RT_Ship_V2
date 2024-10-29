@@ -87,8 +87,9 @@
 #define RT_USING_DEVICE_IPC
 #define RT_UNAMED_PIPE_NUMBER 64
 #define RT_USING_SERIAL
-#define RT_USING_SERIAL_V2
+#define RT_USING_SERIAL_V1
 #define RT_SERIAL_USING_DMA
+#define RT_SERIAL_RB_BUFSZ 64
 #define RT_USING_ADC
 #define RT_USING_PWM
 #define RT_USING_SENSOR
@@ -179,6 +180,8 @@
 
 /* JSON: JavaScript Object Notation, a lightweight data-interchange format */
 
+#define PKG_USING_CJSON
+#define PKG_USING_CJSON_V1717
 /* end of JSON: JavaScript Object Notation, a lightweight data-interchange format */
 
 /* XML: Extensible Markup Language */
@@ -334,19 +337,8 @@
 #define BSP_USING_DHT11
 #define BSP_DHT11_PIN 5
 #define BSP_USING_LC29H
-#define BSP_LC29H_UART "uart4"
-#define BSP_LC29H_RB_BUSIZ 1024*2
-#define BSP_UART1_RX_BUFSIZE 64
-#define BSP_UART1_TX_BUFSIZE 64
-#define BSP_UART2_RX_BUFSIZE 64
-#define BSP_UART2_TX_BUFSIZE 64
-#define BSP_UART3_RX_BUFSIZE 64
-#define BSP_UART3_TX_BUFSIZE 64
-#define BSP_UART4_RX_BUFSIZE 4096
-#define BSP_UART4_TX_BUFSIZE 64
-#define BSP_UART5_RX_BUFSIZE 64
-#define BSP_UART5_TX_BUFSIZE 64
-
+#define BSP_LC29H_UART "uart2"
+#define BSP_LC29H_RB_BUSIZ 128
 /* end of Onboard Peripheral Drivers */
 
 /* On-chip Peripheral Drivers */
@@ -364,7 +356,8 @@
 #define BSP_USING_ADC1
 #define BSP_USING_PWM
 #define BSP_USING_PWM3
-#define BSP_USING_PWM3_CH3
+#define BSP_USING_PWM3_CH1
+#define BSP_USING_PWM3_CH2
 /* end of On-chip Peripheral Drivers */
 
 /* Board extended module Drivers */
