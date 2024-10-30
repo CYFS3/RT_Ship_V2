@@ -207,7 +207,7 @@ INIT_APP_EXPORT(dht11_read_temp_sample);
 static int rt_hw_dht11_port(void)
 {
     struct rt_sensor_config cfg;
-    
+    rt_thread_mdelay(10);
     cfg.intf.user_data = (void *)BSP_DHT11_PIN;
     rt_hw_dht11_init("dht11", &cfg);
 

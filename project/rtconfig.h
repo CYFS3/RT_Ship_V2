@@ -333,7 +333,7 @@
 /* Onboard Peripheral Drivers */
 
 #define BSP_USING_DS18B20
-#define BSP_DS18B20_PIN 36
+#define BSP_DS18B20_PIN 41
 #define BSP_USING_DHT11
 #define BSP_DHT11_PIN 5
 #define BSP_USING_LC29H
@@ -352,6 +352,7 @@
 #define BSP_USING_UART4
 #define BSP_UART4_RX_USING_DMA
 #define BSP_USING_UART5
+#define BSP_UART5_RX_USING_DMA
 #define BSP_USING_ADC
 #define BSP_USING_ADC1
 #define BSP_USING_PWM
