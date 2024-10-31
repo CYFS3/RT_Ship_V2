@@ -54,7 +54,7 @@ int lc29h_init(void)
 	rt_device_open(lc29h_dev, RT_DEVICE_FLAG_DMA_RX);
 	rt_device_set_rx_indicate(lc29h_dev, lc29h_rx_callback);
 	
-	
+	return RT_EOK;
 
 }
 INIT_BOARD_EXPORT(lc29h_init);

@@ -88,7 +88,7 @@ void control_thread_entry(void *parameter)
     int value = 0;
     while (1)
     {
-       if(rt_mb_recv(control_mb,&value,RT_WAITING_FOREVER) == RT_EOK)
+       if(rt_mb_recv(control_mb,(rt_ubase_t*)&value,RT_WAITING_FOREVER) == RT_EOK)
        {
             order_command(value);
        }

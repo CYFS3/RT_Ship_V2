@@ -45,7 +45,8 @@ int lora_init(void)
 	config.parity    = PARITY_NONE;    
 	rt_device_control(lora_serial, RT_DEVICE_CTRL_CONFIG, &config);
 	rt_device_open(lora_serial, RT_DEVICE_FLAG_DMA_RX);
-	rt_device_set_rx_indicate(lora_serial, lora__rx_callback);   
+	rt_device_set_rx_indicate(lora_serial, lora__rx_callback);  
+    return RT_EOK;
 }
 INIT_BOARD_EXPORT(lora_init);
 rt_err_t lord_send(char * str)

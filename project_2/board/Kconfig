@@ -88,8 +88,8 @@ menu "On-chip Peripheral Drivers"
             bool "Enable timer3 output PWM"
             default n
             if BSP_USING_PWM3
-                config BSP_USING_PWM3_CH3
-                    bool "Enable PWM3 channel3"
+                config BSP_USING_PWM3_CH1
+                    bool "Enable PWM3 channel1"
                     default n
             endif
         
