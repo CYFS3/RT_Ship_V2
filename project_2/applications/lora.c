@@ -46,7 +46,7 @@ int lora_init(void)
     return RT_EOK;
 }
 INIT_BOARD_EXPORT(lora_init);
-rt_err_t lord_send(char * str)
+rt_err_t lora_send(char * str)
 {
 	if(lora_serial == RT_NULL)
 	{

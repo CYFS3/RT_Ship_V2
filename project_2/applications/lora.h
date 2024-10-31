@@ -3,6 +3,6 @@
 
 
 
-rt_err_t lord_send(char * str);
+rt_err_t lora_send(char * str);
 
 #endif /* __LORA_H__ */
