@@ -64,11 +64,11 @@ static void order_command(int value)
     switch (value)
     {
         case 87:
-        case 68:
+        case 65:
             rt_kprintf("front\n");
             control_front();
             break;
-        case 65:
+        case 68:
         case 51:
             rt_kprintf("back\n");
             control_back();
@@ -88,7 +88,7 @@ void control_thread_entry(void *parameter)
     int value = 0;
     while (1)
     {
-       if(rt_mb_recv(control_mb,&value,RT_WAITING_FOREVER) == RT_EOK)
+       if(rt_mb_recv(control_mb,(rt_ubase_t*)&value,RT_WAITING_FOREVER) == RT_EOK)
        {
             order_command(value);
        }

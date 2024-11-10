@@ -1,7 +1,7 @@
 #include <rtthread.h>
 #include <rtdevice.h>
 #include <board.h>
-
+#include "780eg.h"
 
 #ifdef BSP_USING_LC29H
 #include "gps_rmc.h"
@@ -58,14 +58,16 @@ int lc29h_init(void)
 
 }
 INIT_BOARD_EXPORT(lc29h_init);
+static char rx_buffer[BSP_LC29H_RB_BUSIZ + 1];
+
 static void serial_thread_entry(void *parameter)
 {
     struct rx_msg msg;
     rt_ssize_t result;
     rt_uint32_t rx_length;
-    static char rx_buffer[BSP_LC29H_RB_BUSIZ + 1];
     struct gps_info info_data = {0};
     gps_info_t info = &info_data;
+    char send_buf[64];
     while (1)
     {
         rt_memset(&msg, 0, sizeof(msg));
@@ -84,10 +86,14 @@ static void serial_thread_entry(void *parameter)
                 {
                     q += 2;
                     *q = '\0';
-                    rt_kprintf("rx_buffer:%s\n",p);
                     if (gps_rmc_parse(info, p))
                     {
-                        //gps_print_info(info);
+                        
+                        if(info->AV == 'A')
+                        {
+                            snprintf(send_buf, 64,"{\"order\":%d,\"Latitude\":%f,\"Longtitude\":%f}",0,info->coord.location.latitude.value, info->coord.location.longitude.value);
+                            send_data(send_buf);
+                        }
                     }
                     rt_memset(info, 0, sizeof(struct gps_info));
                 }
@@ -98,7 +104,7 @@ static void serial_thread_entry(void *parameter)
 int lc29h_thread_init(void)
 {
 	rt_thread_t thread = RT_NULL;
-	thread = rt_thread_create("lc29h_thread", serial_thread_entry, RT_NULL, 2048, 1, 10);
+	thread = rt_thread_create("lc29h_thread", serial_thread_entry, RT_NULL, 1024*4, 1, 10);
 	if (thread != RT_NULL)
 	{
 		rt_thread_startup(thread);

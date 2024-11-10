@@ -1,6 +1,7 @@
 #include <rtthread.h>
 #include <rtdevice.h>
 #include "BA111.h"
+#include "data.h"
 #define DBG_TAG "sensor.ba111"
 #define DBG_LVL DBG_INFO  
 #include <rtdbg.h>
@@ -43,16 +44,9 @@ rt_err_t ba111_get_tds(int * tds)
 	char buf[6] = {0x00,0x00,0x00,0x00,0x00,0x00};
 	char send_buf[] = SENSE_COMMAD;
     int ret = rt_device_write(ba111_serial,0,send_buf,6);
-	
-	rt_kprintf("send data %d\n",ret);
 	rt_device_read(ba111_serial,-1,(void*)buf,6);
-    for(int i = 0;i < 6;i++)
-    {
-        rt_kprintf("%d : %2X ",i,buf[i]);
-    }
 	if(buf[0] == 0xAA && ((char)(buf[0] + buf[1] + buf[2] + buf[3] + buf[4]) == buf[5]))
 	{
-		rt_kprintf("buf[1] = %X,buf[2] = %X\n",buf[1],buf[2]);
 		*tds = (int)(((int)buf[1]) << 8) + (int)buf[2];
 		return RT_EOK;
 	}
@@ -61,17 +55,36 @@ rt_err_t ba111_get_tds(int * tds)
 }
 
 
-void ba111_test(void)
+extern ship_data ship;
+void ba111_test_entry(void * parameter)
 {
 	ba111_usart_device_init(BA111_USART_DEVICE_NAME);
 	int tds = 0;
-	if(ba111_get_tds(&tds) == RT_EOK)
+	while (1)
 	{
-		rt_kprintf("\nread tsd %d\n",tds);
+		if(ba111_get_tds(&tds) == RT_EOK)
+		{
+			ship.tds = tds;
+			
+		}
+		rt_thread_mdelay(1000);
 	}
-	else
-	{
-		rt_kprintf("read error!\n");
-	}
+	
 }
-MSH_CMD_EXPORT(ba111_test,ba111_test)
+
+int ba111_test(void)
+{
+	rt_thread_t ba111_thread;
+	ba111_thread = rt_thread_create("ba111",
+									ba111_test_entry,
+									RT_NULL,
+									512,
+									RT_THREAD_PRIORITY_MAX / 2,
+									10);
+	if (ba111_thread != RT_NULL)
+	{
+		rt_thread_startup(ba111_thread);
+	}
+	return RT_EOK;
+}
+INIT_APP_EXPORT(ba111_test);

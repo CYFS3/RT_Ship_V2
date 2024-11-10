@@ -104,7 +104,8 @@ void lora_thread_entry(void * parameter)
 int lora_thread_init(void)
 {
 	rt_thread_t lora_thread = RT_NULL;
-    rt_sem_init(&rx_sem, "rx_sem", 0, RT_IPC_FLAG_FIFO);	lora_thread = rt_thread_create("lora",lora_thread_entry,RT_NULL,1024,15,10);
+    rt_sem_init(&rx_sem, "rx_sem", 0, RT_IPC_FLAG_FIFO);	
+	lora_thread = rt_thread_create("lora",lora_thread_entry,RT_NULL,1024,15,10);
 	if(lora_thread != RT_NULL)
 	{
 		rt_thread_startup(lora_thread);

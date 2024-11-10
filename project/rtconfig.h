@@ -61,7 +61,7 @@
 
 #define RT_USING_COMPONENTS_INIT
 #define RT_USING_USER_MAIN
-#define RT_MAIN_THREAD_STACK_SIZE 2048
+#define RT_MAIN_THREAD_STACK_SIZE 1024
 #define RT_MAIN_THREAD_PRIORITY 10
 #define RT_USING_MSH
 #define RT_USING_FINSH
@@ -246,8 +246,6 @@
 
 #define PKG_USING_DS18B20
 #define PKG_USING_DS18B20_LATEST_VERSION
-#define PKG_USING_DHT11
-#define PKG_USING_DHT11_LATEST_VERSION
 /* end of sensors drivers */
 
 /* touch drivers */
@@ -334,11 +332,9 @@
 
 #define BSP_USING_DS18B20
 #define BSP_DS18B20_PIN 41
-#define BSP_USING_DHT11
-#define BSP_DHT11_PIN 5
 #define BSP_USING_LC29H
 #define BSP_LC29H_UART "uart2"
-#define BSP_LC29H_RB_BUSIZ 128
+#define BSP_LC29H_RB_BUSIZ 2048
 /* end of Onboard Peripheral Drivers */
 
 /* On-chip Peripheral Drivers */

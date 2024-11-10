@@ -13,6 +13,18 @@
 static struct rt_semaphore rx_sem;
 static rt_device_t serial;
 
+
+void send_data(char * data)
+{
+	if(serial == RT_NULL)
+	{
+		rt_kprintf("lora dev is null!\n");
+		return;
+	}
+	rt_enter_critical();
+	rt_device_write(serial,0,data,rt_strlen(data));
+	rt_exit_critical();
+}
 /* 接收数据回调函数 */
 static rt_err_t uart_input(rt_device_t dev, rt_size_t size)
 {
@@ -45,8 +57,9 @@ static void serial_thread_entry(void *parameter)
 		{
 			buffer[length++] = ch;
 			buffer[length] = '\0';
-			
+			rt_enter_critical();
 			lord_send(buffer);
+			rt_exit_critical();
 			cJSON *root = cJSON_Parse(buffer);
 
 			if(root != RT_NULL)
@@ -54,9 +67,7 @@ static void serial_thread_entry(void *parameter)
 				cJSON *item = cJSON_GetObjectItem(root, "order");
 				if(item != RT_NULL)
 				{
-					
 					rt_mb_send(control_mb,item->valueint);
-					
 				}
 				cJSON_Delete(root);
 			}

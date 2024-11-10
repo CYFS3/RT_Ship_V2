@@ -65,12 +65,10 @@ static void order_command(int value)
     {
         case 87:
         case 68:
-            rt_kprintf("front\n");
             control_front();
             break;
         case 65:
         case 51:
-            rt_kprintf("back\n");
             control_back();
         default:
             control_back();

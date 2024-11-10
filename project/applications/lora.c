@@ -1,54 +1,26 @@
 #include <rtthread.h>
 #include <rtdevice.h>
+
 #define DBG_TAG "lora"
 #define DBG_LVL DBG_LOG
 #include <rtdbg.h>
 #define UART_DEV_NAME "uart4"
-struct rx_msg
-{
-    rt_device_t dev;
-    rt_size_t size;
-};
+
+
 
 
 static rt_device_t lora_serial;
-static rt_mq_t lora_rx_mq = RT_NULL;   
+static struct rt_semaphore rx_sem;
 
-static rt_err_t lora__rx_callback(rt_device_t dev,rt_size_t size)
+/* 接收数据回调函数 */
+static rt_err_t uart_input(rt_device_t dev, rt_size_t size)
 {
-	rt_err_t result;
-    struct rx_msg msg;
-    msg.dev = dev;
-    msg.size = size;
-    result = rt_mq_send(lora_rx_mq, &msg, sizeof(msg));
-    if ( result == -RT_EFULL)
-    {
-        /* 消息队列满 */
-        LOG_D("message queue full!\n");
-    }
-    return result;
-}
+    /* 串口接收到数据后产生中断，调用此回调函数，然后发送接收信号量 */
+    rt_sem_release(&rx_sem);
 
-int lora_init(void)
-{
-	lora_serial = rt_device_find(UART_DEV_NAME);
-	if(lora_serial == RT_NULL)
-	{
-		LOG_E("lord dev find fail!\n");
-		return -RT_ERROR;
-	}
-	struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;  /* 初始化配置参数 */
-	config.baud_rate = BAUD_RATE_115200;        
-	config.data_bits = DATA_BITS_8;           
-	config.stop_bits = STOP_BITS_1;          
-	config.bufsz     = 128;                   
-	config.parity    = PARITY_NONE;    
-	rt_device_control(lora_serial, RT_DEVICE_CTRL_CONFIG, &config);
-	rt_device_open(lora_serial, RT_DEVICE_FLAG_DMA_RX);
-	rt_device_set_rx_indicate(lora_serial, lora__rx_callback);  
     return RT_EOK;
 }
-INIT_BOARD_EXPORT(lora_init);
+
 rt_err_t lord_send(char * str)
 {
 	if(lora_serial == RT_NULL)
@@ -61,36 +33,70 @@ rt_err_t lord_send(char * str)
 }
 void lora_thread_entry(void * parameter)
 {
-	struct rx_msg msg;
-    rt_ssize_t result;
-    rt_uint32_t rx_length;
-    static char rx_buffer[128 + 1];
-
+	char ch;
+	rt_size_t length = 0;
+	char buffer[128];
     while (1)
     {
-        rt_memset(&msg, 0, sizeof(msg));
-        /* 从消息队列中读取消息*/
-        result = rt_mq_recv(lora_rx_mq, &msg, sizeof(msg), RT_WAITING_FOREVER);
-        if (result > 0)
+        /* 从串口读取一个字节的数据，没有读取到则等待接收信号量 */
+        while (rt_device_read(lora_serial, -1, &ch, 1) != 1)
         {
-            /* 从串口读取数据*/
-            rx_length = rt_device_read(msg.dev, 0, rx_buffer, msg.size);
-            rx_buffer[rx_length] = '\0';
-            //TODO:manage data change
+            /* 阻塞等待接收信号量，等到信号量后再次读取数据 */
+            rt_sem_take(&rx_sem, RT_WAITING_FOREVER);
         }
+		if(ch == '{')
+		{
+			length = 0;
+			buffer[length++] = ch;
+		}
+		else if(ch == '}')
+		{
+			buffer[length++] = ch;
+			buffer[length] = '\0';
+			data_dispose(buffer);
+		}
+		else
+		{
+			buffer[length++] = ch;
+		}
+        
     }
 }
 int lora_thread_init(void)
 {
-	rt_thread_t lora_thread = RT_NULL;
-	lora_rx_mq = rt_mq_create("lc29h_rx_mq", sizeof(struct rx_msg), 10, RT_IPC_FLAG_FIFO);
-	lora_thread = rt_thread_create("lora",lora_thread_entry,RT_NULL,1024,15,10);
-	if(lora_thread != RT_NULL)
-	{
-		rt_thread_startup(lora_thread);
-		return RT_EOK;
-	}
-	LOG_E("lora thread star fail!\n");
-	return -RT_ERROR;
+	struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;  /* 初始化配置参数 */
+	/* step1：查找串口设备 */
+	lora_serial = rt_device_find(UART_DEV_NAME);
+	/* 查找系统中的串口设备 */
+    if (!lora_serial)
+    {
+        rt_kprintf("find %s failed!\n", UART_DEV_NAME);
+        return -RT_ERROR;
+    }
+	/* step2：修改串口配置参数 */
+	config.baud_rate = BAUD_RATE_115200;        //修改波特率为 9600
+	config.data_bits = DATA_BITS_8;           //数据位 8
+	config.stop_bits = STOP_BITS_1;           //停止位 1
+	config.bufsz     = 128;                   //修改缓冲区 buff size 为 128
+	config.parity    = PARITY_NONE;           //无奇偶校验位
+
+	/* step3：控制串口设备。通过控制接口传入命令控制字，与控制参数 */
+	rt_device_control(lora_serial, RT_DEVICE_CTRL_CONFIG, &config);
+    
+    /* 初始化信号量 */
+    rt_sem_init(&rx_sem, "lora_sem", 0, RT_IPC_FLAG_FIFO);
+    /* 以中断接收及轮询发送模式打开串口设备 */
+    rt_device_open(lora_serial, RT_DEVICE_FLAG_INT_RX);
+    /* 设置接收回调函数 */
+    rt_device_set_rx_indicate(lora_serial, uart_input);
+    /* 创建 lora_serial 线程 */
+    rt_thread_t thread = rt_thread_create("lora_serial", lora_thread_entry, RT_NULL, 1024, 25, 10);
+    /* 创建成功则启动线程 */
+    if (thread != RT_NULL)
+    {
+        rt_thread_startup(thread);
+    }
+
+    return RT_EOK;
 }
 INIT_APP_EXPORT(lora_thread_init);

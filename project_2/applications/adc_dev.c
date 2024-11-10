@@ -21,20 +21,18 @@ static void adc_thread_entry(void * pa)
 	rt_adc_device_t adc_dev;            /* ADC 设备句柄 */
 	/* 查找设备 */
 	adc_dev = (rt_adc_device_t)rt_device_find(ADC_DEV_NAME);
+	char lora_send_buf[256];
 	while (1)
 	{
 		data.r_lv = read_value(adc_dev,5) / 4096.0 * 3.3;
-		data.w_lv = read_value(adc_dev,7) / 4096.0 * 3.3;
+		data.w_lv = read_value(adc_dev,7) / 4096.0 * 3.3;	  
+
 		data.tur_lv = read_value(adc_dev,6) / 819;
 
-		cJSON * root = cJSON_CreateObject();
-		cJSON_AddNumberToObject(root,"r_lv",data.r_lv);
-		cJSON_AddNumberToObject(root,"w_lv",data.w_lv);
-		cJSON_AddNumberToObject(root,"tur_lv",data.tur_lv);
-		char *str = cJSON_Print(root);
-        lora_send(str);
-        cJSON_Delete(root);
-        rt_free(str);
+		rt_sprintf(lora_send_buf,"{\"r_lv\":%.2f,\"w_lv\":%.2f,\"tur_lv\":%d}",data.r_lv,data.w_lv,data.tur_lv);
+		rt_enter_critical();  
+		lora_send(lora_send_buf);
+		rt_exit_critical();
 		rt_thread_mdelay(1000);
 	}
 	
